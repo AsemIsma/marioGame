@@ -93,7 +93,12 @@ function fall () {
 function addFloorWidth () {
 
     for (let i = 50; i <= width; i = i + 50) {
-        document.querySelector(".container").innerHTML += `<img class="floor" id='${i}' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKm5xQYisiRipwq7pQwyyUTX0TEfRNmoM0CQ&s">`;
+        if(i > (width/2- 150) && i < ((width/2))) {
+            document.querySelector(".container").innerHTML += `<img class="floor" id='${i}' src="" onerror="">`;
+        } else {
+            document.querySelector(".container").innerHTML += `<img class="floor" id='${i}' z-index="-1" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKm5xQYisiRipwq7pQwyyUTX0TEfRNmoM0CQ&s">`;
+        }
+        
     }
     
 }

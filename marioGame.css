@@ -32,6 +32,13 @@ body{
     position: absolute;
 }
 
+.hole{
+    height: 50px;
+    width: 70px;
+    align-self: flex-end;
+    position: relative;
+}
+
 .floor{
     height: 50px;
     width: 50px;
