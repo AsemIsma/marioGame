@@ -38,17 +38,11 @@ let posUp = height - 130;
 document.addEventListener('keydown', event => {
     if (event.key === 'w') {
        jump (); 
-       if(isColliding(mario, floor) !== true) {
-        fall()
-        }
        if (isColliding(mario, flag) === true) {
         document.querySelector(".win").style.visibility = "visible";
         }
     } else if (event.key === 'ArrowUp') {
         jump (); 
-        if(isColliding(mario, floor) !== true) {
-            fall()
-        }
         if (isColliding(mario, flag) === true) {
             document.querySelector(".win").style.visibility = "visible";
         }
@@ -58,7 +52,7 @@ document.addEventListener('keydown', event => {
 document.addEventListener('keyup', event => {
     if (event.key === 'w' || event.key === 'ArrowUp') {
         fall(); 
-        if (isColliding(mario, flag) === true) {
+        if (isColliding(mario, flag) !== true) {
             document.querySelector(".win").style.visibility = "visible";
         }
     } 
@@ -91,6 +85,7 @@ function fall () {
             mario.style.top = posUp + 'px';
             mario.style.left = position + "px";
 
+
     return  position
 
 }
@@ -110,7 +105,6 @@ function addFloorWidth () {
         
     }
     
-    // document.querySelector(`#${i}`)
 }
 
 addFloorWidth()
@@ -125,12 +119,13 @@ function flagPosLeft () {
 flagPosLeft ()
 
 function checkMarioFall () {
-    if (isColliding(mario, floor) === true) {
+    if (isColliding(mario, floor) === false) {
+        console.log('ggggg')
     } else {
         fall()
     }
 }
-setInterval(checkMarioFall, 100)
+setInterval(() => {checkMarioFall(), console.log('amcff')}, 100)
 
 function isColliding (el1, el2) {
     const posEl1 = el1.getBoundingClientRect();
@@ -152,13 +147,26 @@ function isColliding (el1, el2) {
         
         let posElFl = '';
         for (let i = 0; i < floorIds.length; i++) {
-            posElFl = floorIds[i].getBoundingClientRect();
+            posElFl = document.querySelector(`#${floorIds[i]}`).getBoundingClientRect();
         }
-        console.log(posElFl.top)
+        console.log((
+            posEl1.right < posElFl.left
+            // ||
+            // posEl1.left > posElFl.right 
+            // ||
+            // posEl1.bottom < posElFl.top 
+            // ||
+            // posEl1.top > posElFl.bottom
+          ))
         return !(
-            posEl1.bottom + 10 < posElFl.top 
+            posEl1.right < posElFl.left
+            ||
+            posEl1.left > posElFl.right 
+            ||
+            posEl1.bottom < posElFl.top 
+            ||
+            posEl1.top > posElFl.bottom
           );
-
           
     }
 
