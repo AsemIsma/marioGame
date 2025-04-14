@@ -4,6 +4,7 @@ let width = window.innerWidth;
 
 let mario = document.querySelector("#mario");
 let flag = document.querySelector("#ffff");
+let floor = document.querySelector(".floor");
 
 
 
@@ -19,7 +20,6 @@ document.addEventListener('keydown',event => {
      } 
 
 });
-
 
 
 function moveFor () {
@@ -38,11 +38,17 @@ let posUp = height - 130;
 document.addEventListener('keydown', event => {
     if (event.key === 'w') {
        jump (); 
+       if(isColliding(mario, floor) !== true) {
+        fall()
+        }
        if (isColliding(mario, flag) === true) {
         document.querySelector(".win").style.visibility = "visible";
-    }
+        }
     } else if (event.key === 'ArrowUp') {
         jump (); 
+        if(isColliding(mario, floor) !== true) {
+            fall()
+        }
         if (isColliding(mario, flag) === true) {
             document.querySelector(".win").style.visibility = "visible";
         }
@@ -89,21 +95,26 @@ function fall () {
 
 }
 
+let floorIds = [];
 
 function addFloorWidth () {
 
     for (let i = 50; i <= width; i = i + 50) {
-        if(i > (width/2- 150) && i < ((width/2))) {
-            document.querySelector(".container").innerHTML += `<img class="floor" id='${i}' src="" onerror="">`;
+        if(i > (width/2 - 150) && i < ((width/2))) {
+            document.querySelector(".container").innerHTML += `<img class="hole" id='a${i}'>`;
         } else {
-            document.querySelector(".container").innerHTML += `<img class="floor" id='${i}' z-index="-1" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKm5xQYisiRipwq7pQwyyUTX0TEfRNmoM0CQ&s">`;
+            document.querySelector(".container").innerHTML += `<img class="floor" id='a${i}' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKm5xQYisiRipwq7pQwyyUTX0TEfRNmoM0CQ&s">`;
         }
+
+        floorIds.push(`a` + i)
         
     }
     
+    // document.querySelector(`#${i}`)
 }
 
 addFloorWidth()
+console.log(document.querySelector("#a50").getBoundingClientRect())
 
 function flagPosLeft () {
     flag = document.querySelector("#ffff");
@@ -112,6 +123,14 @@ function flagPosLeft () {
 }
 
 flagPosLeft ()
+
+function checkMarioFall () {
+    if (isColliding(mario, floor) === true) {
+    } else {
+        fall()
+    }
+}
+setInterval(checkMarioFall, 100)
 
 function isColliding (el1, el2) {
     const posEl1 = el1.getBoundingClientRect();
@@ -127,6 +146,20 @@ function isColliding (el1, el2) {
             ||
             posEl1.top > posEl2.bottom
           );
+    }
+
+    if (el2 === floor) {
+        
+        let posElFl = '';
+        for (let i = 0; i < floorIds.length; i++) {
+            posElFl = floorIds[i].getBoundingClientRect();
+        }
+        console.log(posElFl.top)
+        return !(
+            posEl1.bottom + 10 < posElFl.top 
+          );
+
+          
     }
 
     return !(

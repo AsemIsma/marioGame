@@ -33,8 +33,7 @@ body{
 }
 
 .hole{
-    height: 50px;
-    width: 70px;
+    margin-left: 50px;
     align-self: flex-end;
     position: relative;
 }
