@@ -162,8 +162,12 @@ setInterval(() => {
     }
     if (isColliding(mario, flag) === true) {
         document.querySelector(".win").style.visibility = "visible";
+        location.reload();
     }
     if (isOffScreen(mario)) {
+        document.querySelector(".win").innerHTML = "You lose";
+        document.querySelector(".win").style.visibility = "visible";
+        document.querySelector(".win").style.color = "black";
         location.reload();
       }
     ifMarioTouchFl = [];
@@ -171,7 +175,7 @@ setInterval(() => {
 
     FJarr = [];
     }
-    , 100)
+    , 50)
     
 function isOffScreen(el) {
     const rect = el.getBoundingClientRect();
