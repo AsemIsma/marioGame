@@ -117,8 +117,22 @@ setInterval(() => {
     if (isColliding(mario, flag) === true) {
         document.querySelector(".win").style.visibility = "visible";
     }
+    if (isOffScreen(mario)) {
+        location.reload();
+      }
     ifMarioTouchFl = [];
     }, 100)
+    
+function isOffScreen(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.bottom < 0 ||
+        rect.top > window.innerHeight ||
+        rect.right < 0 ||
+        rect.left > window.innerWidth
+    );
+    }
+      
 
 function isColliding (el1, el2) {
     const posEl1 = el1.getBoundingClientRect();
