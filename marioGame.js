@@ -4,6 +4,7 @@ let width = window.innerWidth;
 let mario = document.querySelector("#mario");
 let flag = document.querySelector("#ffff");
 let floor = document.querySelector(".floor");
+let pipe = document.querySelector(".pipe");
 
 let posUp = height - 130;
 let position = 5;
@@ -39,7 +40,6 @@ function jump () {
     mario = document.querySelector("#mario");
 
             posUp = posUp - 70;
-
             position = position + 10;
 
             mario.style.top = posUp + 'px';
@@ -53,7 +53,7 @@ function fall () {
 
     mario = document.querySelector("#mario");
 
-            posUp = posUp + 70;
+            posUp = posUp + 40;
 
     
             position = position + 10;
@@ -76,10 +76,7 @@ function addFloorWidth () {
         } else {
             document.querySelector(".container").innerHTML += `<img class="floor" id='a${i}' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKm5xQYisiRipwq7pQwyyUTX0TEfRNmoM0CQ&s">`;
             floorIds.push(`a` + i);
-        }
-
-
-        
+        }        
     }
     
 }
@@ -94,16 +91,21 @@ function flagPosLeft () {
 
 flagPosLeft ()
 
+function pipeOnFl () {
+    pipe = document.querySelector('.pipe');
+    pipe.style.top = (height - 100) + 'px';
+    console.log(pipe.style.top)
+}
+
+pipeOnFl()
+
 let ifMarioTouchFl = [];
 
 function checkMarioFall () {
     for (let i = 0; i < floorIds.length; i++) {
         flId = document.querySelector(`#${floorIds[i]}`);
-        ifMarioTouchFl.push(isColliding(mario, flId))
-        
+        ifMarioTouchFl.push(isColliding(mario, flId));
     }
-
-    console.log(ifMarioTouchFl)
 }
 
 checkMarioFall()

@@ -31,12 +31,30 @@ body{
     width: 50px;
     position: absolute;
 }
-.truba{
+.pipe{
     position: absolute;
-    align-self: flex-end;
-    width: 100px;
-    height: 100px;
-    z-index: 2;
+    z-index: 1;
+}
+
+.pipeBody{
+    margin-left: 10px;
+    padding: 35px;
+    background-color: green;
+    border-left: 15px solid rgba(138, 240, 138, 0.692);
+    border-right: 3px solid darkgreen;
+    display: inline-block;
+    position: absolute;
+}
+
+.pipeTop{
+    padding: 7px 42px;
+    border-radius: 10px;
+    border-left: 15px solid rgba(138, 240, 138, 0.692);
+    border-bottom: 1px solid darkgreen;
+    border-right: 5px solid darkgreen;
+    margin-left: 2px;
+    position: absolute;
+    background-color: green;
 }
 
 .hole{
@@ -54,6 +72,7 @@ body{
     width: 50px;
     align-self: flex-end;
     position: relative;
+    z-index: 1;
 }
 
 #ffff{
@@ -61,7 +80,6 @@ body{
     position: absolute;
     align-self: flex-end;
     z-index: 2;
-    margin-top: 290px;
 }
 
 #mario{
@@ -71,22 +89,5 @@ body{
     align-self: flex-end;
     margin-bottom: 50px;
     transition: transform 0.1s linear;
+    z-index: 0;
 }
-
-/* @media only screen and (max-width: 1400px) {
-    #ffff{
-        margin-left: 89%;
-    }
-}
-
-@media only screen and (max-width: 1266px) {
-    #ffff{
-        margin-left: 80%;
-    }
-}
-
-@media only screen and (max-width: 666px) {
-    #ffff{
-        margin-left: 73%;
-    }
-} */
