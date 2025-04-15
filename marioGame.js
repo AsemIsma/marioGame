@@ -1,23 +1,17 @@
 let height = window.innerHeight;
-
 let width = window.innerWidth;
 
 let mario = document.querySelector("#mario");
 let flag = document.querySelector("#ffff");
 let floor = document.querySelector(".floor");
 
-
-
-
+let posUp = height - 130;
 let position = 5;
 
 document.addEventListener('keydown',event => {
     if (event.key === 'd' || event.key === 'ArrowRight') {
         moveFor (); 
-        if (isColliding(mario, flag) === true) {
-        document.querySelector(".win").style.visibility = "visible";
-    }
-     } 
+    } 
 
 });
 
@@ -33,28 +27,10 @@ function moveFor () {
     return position
 }
 
-let posUp = height - 130;
 
 document.addEventListener('keydown', event => {
-    if (event.key === 'w') {
+    if (event.key === 'w' || event.key === 'ArrowUp' ) {
        jump (); 
-       if (isColliding(mario, flag) === true) {
-        document.querySelector(".win").style.visibility = "visible";
-        }
-    } else if (event.key === 'ArrowUp') {
-        jump (); 
-        if (isColliding(mario, flag) === true) {
-            document.querySelector(".win").style.visibility = "visible";
-        }
-     }
-});
-
-document.addEventListener('keyup', event => {
-    if (event.key === 'w' || event.key === 'ArrowUp') {
-        // fall(); 
-        if (isColliding(mario, flag) === true) {
-            document.querySelector(".win").style.visibility = "visible";
-        }
     } 
 });
 
@@ -94,7 +70,7 @@ let floorIds = [];
 
 function addFloorWidth () {
 
-    for (let i = 50; i <= width; i = i + 50) {
+    for (let i = 0; i <= width; i = i + 50) {
         if(i > (width/2 - 150) && i < ((width/2))) {
             document.querySelector(".container").innerHTML += `<img class="hole" id='b${i}'>`;
         } else {
@@ -109,7 +85,6 @@ function addFloorWidth () {
 }
 
 addFloorWidth()
-console.log(document.querySelector("#a50").getBoundingClientRect())
 
 function flagPosLeft () {
     flag = document.querySelector("#ffff");
@@ -125,15 +100,21 @@ function checkMarioFall () {
     for (let i = 0; i < floorIds.length; i++) {
         flId = document.querySelector(`#${floorIds[i]}`);
         ifMarioTouchFl.push(isColliding(mario, flId))
-        console.log(ifMarioTouchFl)
+        
     }
 
-    
+    console.log(ifMarioTouchFl)
 }
+
+checkMarioFall()
+
 setInterval(() => {
     checkMarioFall()
     if(!(ifMarioTouchFl.includes(true))) {
         fall()
+    }
+    if (isColliding(mario, flag) === true) {
+        document.querySelector(".win").style.visibility = "visible";
     }
     ifMarioTouchFl = [];
     }, 100)
@@ -163,9 +144,9 @@ function isColliding (el1, el2) {
             ||
             posEl1.left > posElFl.right 
             ||
-            posEl1.bottom < posElFl.top - 10
+            posEl1.bottom < posElFl.top - 20
             ||
-            posEl1.top > posElFl.bottom
+            posEl1.top > posElFl.bottom 
           );
           
     }

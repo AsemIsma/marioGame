@@ -31,11 +31,22 @@ body{
     width: 50px;
     position: absolute;
 }
+.truba{
+    position: absolute;
+    align-self: flex-end;
+    width: 100px;
+    height: 100px;
+    z-index: 2;
+}
 
 .hole{
     margin-left: 50px;
     align-self: flex-end;
     position: relative;
+}
+
+.hhhh{
+    position: absolute;
 }
 
 .floor{
