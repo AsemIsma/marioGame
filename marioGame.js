@@ -109,7 +109,6 @@ flagPosLeft ()
 function pipeOnFl () {
     pipe = document.querySelector('.pipe');
     pipe.style.top = (height - 100) + 'px';
-    console.log(pipe.style.top)
 }
 
 pipeOnFl()
@@ -124,11 +123,42 @@ function checkMarioFall () {
 }
 
 checkMarioFall()
+console.log(ifMarioTouchFl)
+
+let FJarr = [];
+
+function collectCoin () {
+    for (let i = 4; i > 0; i--) {
+        let coin = document.querySelector(`#c${i}`);
+        FJ = document.querySelector(`.FJ${i}`);
+        if (i === 1) {
+            coin.style.left = (width * 3/4) + 'px';
+            FJ.style.left = (width * 3/4) + 'px';
+        } else {
+            coin.style.left = (width/i) + 'px';
+            FJ.style.left = (width/i) + 'px';
+        }
+
+        coin.style.top = (height * 1/3) + 'px';
+        FJ.style.top = (height * 1/3 + 50) + 'px';
+
+        FJarr.push(isColliding(mario, FJ));
+
+    }
+}
+
+
+
+collectCoin ()
 
 setInterval(() => {
     checkMarioFall()
     if(!(ifMarioTouchFl.includes(true))) {
         fall()
+    } 
+    if (FJarr.includes(true)) {
+        console.log(FJarr)
+        jump()
     }
     if (isColliding(mario, flag) === true) {
         document.querySelector(".win").style.visibility = "visible";
@@ -137,7 +167,11 @@ setInterval(() => {
         location.reload();
       }
     ifMarioTouchFl = [];
-    }, 50)
+    collectCoin();
+
+    FJarr = [];
+    }
+    , 100)
     
 function isOffScreen(el) {
     const rect = el.getBoundingClientRect();
@@ -168,7 +202,7 @@ function isColliding (el1, el2) {
 
     if (el2 === flId) {
 
-            posElFl = flId.getBoundingClientRect();
+            posElFl = el2.getBoundingClientRect();
 
         return !(
             posEl1.right < posElFl.left
@@ -181,6 +215,22 @@ function isColliding (el1, el2) {
           );
           
     }
+
+    if (el2 === FJ) {
+
+        posFJ = FJ.getBoundingClientRect();
+
+    return !(
+        posEl1.right < posFJ.left
+        ||
+        posEl1.left > posFJ.right 
+        ||
+        posEl1.bottom < posFJ.top - 20
+        ||
+        posEl1.top > posFJ.bottom 
+      );
+      
+}
 
     return !(
         posEl1.right < posEl2.left

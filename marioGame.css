@@ -26,11 +26,17 @@ body{
     background-color: rgba(0, 251, 167, 0.426);
 }
 
-.flFJ{
+.fl{
     height: 50px;
     width: 50px;
     position: absolute;
 }
+
+.coin{
+    position: absolute;
+    visibility: visible;
+}
+
 .pipe{
     position: absolute;
     z-index: 1;
