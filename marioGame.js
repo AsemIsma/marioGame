@@ -9,7 +9,7 @@ let floor = document.querySelector(".floor");
 
 
 
-let position = 0;
+let position = 5;
 
 document.addEventListener('keydown',event => {
     if (event.key === 'd' || event.key === 'ArrowRight') {
@@ -51,7 +51,7 @@ document.addEventListener('keydown', event => {
 
 document.addEventListener('keyup', event => {
     if (event.key === 'w' || event.key === 'ArrowUp') {
-        fall(); 
+        // fall(); 
         if (isColliding(mario, flag) === true) {
             document.querySelector(".win").style.visibility = "visible";
         }
@@ -119,18 +119,24 @@ function flagPosLeft () {
 
 flagPosLeft ()
 
+let ifMarioTouchFl = [];
+
 function checkMarioFall () {
     for (let i = 0; i < floorIds.length; i++) {
         flId = document.querySelector(`#${floorIds[i]}`);
-        
-        if (isColliding(mario, flId) === true) {
-            console.log('ggggg')
-        } else {
-            setInterval(fall(), 1000)
-        }
+        ifMarioTouchFl.push(isColliding(mario, flId))
+        console.log(ifMarioTouchFl)
     }
+
+    
 }
-setInterval(() => {checkMarioFall()}, 1000)
+setInterval(() => {
+    checkMarioFall()
+    if(!(ifMarioTouchFl.includes(true))) {
+        fall()
+    }
+    ifMarioTouchFl = [];
+    }, 100)
 
 function isColliding (el1, el2) {
     const posEl1 = el1.getBoundingClientRect();
@@ -151,13 +157,13 @@ function isColliding (el1, el2) {
     if (el2 === flId) {
 
             posElFl = flId.getBoundingClientRect();
-            //think
+
         return !(
             posEl1.right < posElFl.left
             ||
             posEl1.left > posElFl.right 
             ||
-            posEl1.bottom < posElFl.top + 70
+            posEl1.bottom < posElFl.top - 10
             ||
             posEl1.top > posElFl.bottom
           );
