@@ -52,7 +52,7 @@ document.addEventListener('keydown', event => {
 document.addEventListener('keyup', event => {
     if (event.key === 'w' || event.key === 'ArrowUp') {
         fall(); 
-        if (isColliding(mario, flag) !== true) {
+        if (isColliding(mario, flag) === true) {
             document.querySelector(".win").style.visibility = "visible";
         }
     } 
@@ -96,12 +96,13 @@ function addFloorWidth () {
 
     for (let i = 50; i <= width; i = i + 50) {
         if(i > (width/2 - 150) && i < ((width/2))) {
-            document.querySelector(".container").innerHTML += `<img class="hole" id='a${i}'>`;
+            document.querySelector(".container").innerHTML += `<img class="hole" id='b${i}'>`;
         } else {
             document.querySelector(".container").innerHTML += `<img class="floor" id='a${i}' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKm5xQYisiRipwq7pQwyyUTX0TEfRNmoM0CQ&s">`;
+            floorIds.push(`a` + i);
         }
 
-        floorIds.push(`a` + i)
+
         
     }
     
@@ -119,13 +120,17 @@ function flagPosLeft () {
 flagPosLeft ()
 
 function checkMarioFall () {
-    if (isColliding(mario, floor) === false) {
-        console.log('ggggg')
-    } else {
-        fall()
+    for (let i = 0; i < floorIds.length; i++) {
+        flId = document.querySelector(`#${floorIds[i]}`);
+        
+        if (isColliding(mario, flId) === true) {
+            console.log('ggggg')
+        } else {
+            setInterval(fall(), 1000)
+        }
     }
 }
-setInterval(() => {checkMarioFall(), console.log('amcff')}, 100)
+setInterval(() => {checkMarioFall()}, 1000)
 
 function isColliding (el1, el2) {
     const posEl1 = el1.getBoundingClientRect();
@@ -143,27 +148,16 @@ function isColliding (el1, el2) {
           );
     }
 
-    if (el2 === floor) {
-        
-        let posElFl = '';
-        for (let i = 0; i < floorIds.length; i++) {
-            posElFl = document.querySelector(`#${floorIds[i]}`).getBoundingClientRect();
-        }
-        console.log((
-            posEl1.right < posElFl.left
-            // ||
-            // posEl1.left > posElFl.right 
-            // ||
-            // posEl1.bottom < posElFl.top 
-            // ||
-            // posEl1.top > posElFl.bottom
-          ))
+    if (el2 === flId) {
+
+            posElFl = flId.getBoundingClientRect();
+            //think
         return !(
             posEl1.right < posElFl.left
             ||
             posEl1.left > posElFl.right 
             ||
-            posEl1.bottom < posElFl.top 
+            posEl1.bottom < posElFl.top + 70
             ||
             posEl1.top > posElFl.bottom
           );
