@@ -57,6 +57,22 @@ body{
     background-color: green;
 }
 
+.coin{
+    position: absolute;
+}
+
+.coinBody{
+    background-color: rgb(255, 230, 5);
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.coinInsides{
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgba(228, 213, 0, 0.718);
+}
+
 .hole{
     margin-left: 50px;
     align-self: flex-end;
