@@ -30,7 +30,9 @@ function moveFor () {
 
 
 document.addEventListener('keydown', event => {
-    if (event.key === 'w' || event.key === 'ArrowUp' ) {
+    if (event.key === 'space' ) {
+        doubleJump()
+    } else if (event.key === 'w' || event.key === 'ArrowUp' ) {
        jump (); 
     } 
 });
@@ -39,7 +41,21 @@ function jump () {
 
     mario = document.querySelector("#mario");
 
-            posUp = posUp - 70;
+            posUp = posUp - 40;
+            position = position + 10;
+
+            mario.style.top = posUp + 'px';
+            mario.style.left = position + "px";
+
+    return position
+
+}
+
+function doubleJump () {
+
+    mario = document.querySelector("#mario");
+
+            posUp = posUp - 1000;
             position = position + 10;
 
             mario.style.top = posUp + 'px';
@@ -53,7 +69,7 @@ function fall () {
 
     mario = document.querySelector("#mario");
 
-            posUp = posUp + 70;
+            posUp = posUp + 40;
 
             position = position + 10;
 
@@ -70,7 +86,7 @@ let floorIds = [];
 function addFloorWidth () {
 
     for (let i = 0; i <= width; i = i + 50) {
-        if(i > (width/2 - 150) && i < ((width/2))) {
+        if(i > (width/2 - 200) && i < (width/2 + 100) || width > 770 && i > (width/4 - 150) && i < (width/4 + 350) || width > 1000  && i > ((width * 3/4) - 250) && i < (width * 3/4 + 150)) {
             document.querySelector(".container").innerHTML += `<img class="hole" id='b${i}'>`;
         } else {
             document.querySelector(".container").innerHTML += `<img class="floor" id='a${i}' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKm5xQYisiRipwq7pQwyyUTX0TEfRNmoM0CQ&s">`;
@@ -121,7 +137,7 @@ setInterval(() => {
         location.reload();
       }
     ifMarioTouchFl = [];
-    }, 100)
+    }, 50)
     
 function isOffScreen(el) {
     const rect = el.getBoundingClientRect();
