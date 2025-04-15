@@ -53,9 +53,8 @@ function fall () {
 
     mario = document.querySelector("#mario");
 
-            posUp = posUp + 40;
+            posUp = posUp + 70;
 
-    
             position = position + 10;
 
             mario.style.top = posUp + 'px';
