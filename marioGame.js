@@ -3,7 +3,6 @@ let width = window.innerWidth;
 
 let mario = document.querySelector("#mario");
 let flag = document.querySelector("#ffff");
-let floor = document.querySelector(".floor");
 let pipe = document.querySelector(".pipe");
 
 let posUp = height - 130;
@@ -18,9 +17,6 @@ document.addEventListener('keydown',event => {
 
 
 function moveFor () {
-
-    mario = document.querySelector("#mario");
-    
     position = position + 20;
     
     mario.style.left = position + "px";
@@ -30,17 +26,12 @@ function moveFor () {
 
 
 document.addEventListener('keydown', event => {
-    if (event.key === 'space' ) {
-        doubleJump()
-    } else if (event.key === 'w' || event.key === 'ArrowUp' ) {
+    if (event.key === 'w' || event.key === 'ArrowUp' ) {
        jump (); 
     } 
 });
 
 function jump () {
-
-    mario = document.querySelector("#mario");
-
             posUp = posUp - 40;
             position = position + 10;
 
@@ -51,30 +42,17 @@ function jump () {
 
 }
 
-function doubleJump () {
-
-    mario = document.querySelector("#mario");
-
-            posUp = posUp - 1000;
-            position = position + 10;
-
-            mario.style.top = posUp + 'px';
-            mario.style.left = position + "px";
-
-    return position
-
-}
 
 function fall () {
 
     mario = document.querySelector("#mario");
 
-            posUp = posUp + 40;
+    posUp = posUp + 40;
 
-            position = position + 10;
+    position = position + 10;
 
-            mario.style.top = posUp + 'px';
-            mario.style.left = position + "px";
+    mario.style.top = posUp + 'px';
+    mario.style.left = position + "px";
 
 
     return  position
@@ -85,11 +63,22 @@ let floorIds = [];
 
 function addFloorWidth () {
 
+    
     for (let i = 0; i <= width; i = i + 50) {
+        
         if(i > (width/2 - 200) && i < (width/2 + 100) || width > 770 && i > (width/4 - 150) && i < (width/4 + 350) || width > 1000  && i > ((width * 3/4) - 250) && i < (width * 3/4 + 150)) {
-            document.querySelector(".container").innerHTML += `<img class="hole" id='b${i}'>`;
+            let img = document.createElement("img");
+            img.className = "hole";
+            img.id = "b" + i;
+            document.querySelector(".container").appendChild(img);
+
         } else {
-            document.querySelector(".container").innerHTML += `<img class="floor" id='a${i}' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKm5xQYisiRipwq7pQwyyUTX0TEfRNmoM0CQ&s">`;
+            let img = document.createElement("img");
+            img.className = "floor";
+            img.id = "a" + i;
+            img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKm5xQYisiRipwq7pQwyyUTX0TEfRNmoM0CQ&s";
+            document.querySelector(".container").appendChild(img);
+
             floorIds.push(`a` + i);
         }        
     }
@@ -99,15 +88,12 @@ function addFloorWidth () {
 addFloorWidth()
 
 function flagPosLeft () {
-    flag = document.querySelector("#ffff");
-
     flag.style.left = (width - 150) + 'px';
 }
 
 flagPosLeft ()
 
 function pipeOnFl () {
-    pipe = document.querySelector('.pipe');
     pipe.style.top = (height - 100) + 'px';
 }
 
@@ -123,52 +109,64 @@ function checkMarioFall () {
 }
 
 checkMarioFall()
-console.log(ifMarioTouchFl)
 
-let FJarr = [];
+let coins = [];
 
-function collectCoin () {
+function makeCoin () {
     for (let i = 4; i > 0; i--) {
         let coin = document.querySelector(`#c${i}`);
-        FJ = document.querySelector(`.FJ${i}`);
         if (i === 1) {
             coin.style.left = (width * 3/4) + 'px';
-            FJ.style.left = (width * 3/4) + 'px';
+
         } else {
             coin.style.left = (width/i) + 'px';
-            FJ.style.left = (width/i) + 'px';
         }
 
+        let img = document.createElement("img");
+        img.className = "fl";
+        img.id = "a" + i;
+        img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkMtIF-QvKzr_H8Fb5oXUcYISHE85c5outLg&s";
+        document.querySelector(".container").appendChild(img);
+
+        floorIds.push(`a` + i);
+        
         coin.style.top = (height * 1/3) + 'px';
-        FJ.style.top = (height * 1/3 + 50) + 'px';
 
-        FJarr.push(isColliding(mario, FJ));
-
+        coins.push(`#c${i}`);
+   
     }
+
 }
 
+makeCoin ()
 
+function collectCoin () {
+    for(let i = 0; i < coins.length; i++){
+        coin = document.querySelector(coins[i]);
+        if (isColliding(mario, coin)) {
+        coin.style.visibility = "hidden";
+    }
+    }
 
-collectCoin ()
+}
 
 setInterval(() => {
     checkMarioFall()
     if(!(ifMarioTouchFl.includes(true))) {
         fall()
     } 
-    if (FJarr.includes(true)) {
-        console.log(FJarr)
-        jump()
-    }
     if (isColliding(mario, flag) === true) {
         document.querySelector(".win").style.visibility = "visible";
-        location.reload();
+        setTimeout(() => {location.reload()}, 1000);
     }
     if (isOffScreen(mario)) {
         document.querySelector(".win").innerHTML = "You lose";
         document.querySelector(".win").style.visibility = "visible";
         document.querySelector(".win").style.color = "black";
-        location.reload();
+        setTimeout(() => {
+            location.reload();
+        }
+        , 1000)
       }
     ifMarioTouchFl = [];
     collectCoin();
@@ -220,21 +218,21 @@ function isColliding (el1, el2) {
           
     }
 
-    if (el2 === FJ) {
+//     if (el2 === FJ) {
 
-        posFJ = FJ.getBoundingClientRect();
+//         posFJ = FJ.getBoundingClientRect();
 
-    return !(
-        posEl1.right < posFJ.left
-        ||
-        posEl1.left > posFJ.right 
-        ||
-        posEl1.bottom < posFJ.top - 20
-        ||
-        posEl1.top > posFJ.bottom 
-      );
+//     return !(
+//         posEl1.right < posFJ.left
+//         ||
+//         posEl1.left > posFJ.right 
+//         ||
+//         posEl1.bottom < posFJ.top - 20
+//         ||
+//         posEl1.top > posFJ.bottom 
+//       );
       
-}
+// }
 
     return !(
         posEl1.right < posEl2.left
